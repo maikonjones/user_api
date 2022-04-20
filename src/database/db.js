@@ -1,10 +1,10 @@
-require('dotenv').config(require('dotenv').config({path: __dirname + '/./../.env'}))
+require('dotenv').config(require('dotenv').config({path: require('find-config')('.env') }))
 const mongoose = require('mongoose');
 
 let dbConnection =  process.env.DB_CONNECTION
 
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.on('connected', () => {
   console.log('Conectado ao DB ')

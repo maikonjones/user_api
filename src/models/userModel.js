@@ -3,7 +3,6 @@ const mongoose = require('../database/db');
 const UserSchema = new mongoose.Schema({
   name:{
     type: String,
-    unique: true,
   },
   surname: {
     type: String
@@ -13,10 +12,9 @@ const UserSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    default: "desconectado"
   }
 });
 
 const User = mongoose.model ('user', UserSchema);
 
-module.exports = UserSchema;
+module.exports = User;
