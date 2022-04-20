@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.1",
+    "info":{
+        "title": "CRUD Users",
+        "description": "Documentação do CRUD de usuários",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths":{
+        "/userscrud/register":{
+            "post": {
+                "tags":["Route Users"],
+                "requestBody":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "name":{
+                                            "type":"string"
+                                        },
+                                        "surname":{
+                                            "type":"string"
+                                        },
+                                        "phone":{
+                                            "type":"string"
+                                        },
+                                        "cpf":{
+                                            "type":"string"
+                                        }
+                                    },
+                                    "example":{                                   
+                                        "name": "Pedro",
+                                        "surname": "Silva",
+                                        "phone": "(11)9938-3221",
+                                        "cpf": "885.226.33910"
+                                    }
+
+                                }
+
+                            }
+                        }
+                },         
+                "responses":{
+                    "400":{
+                        "description": "Formato dos campos informados inválido"
+                    },
+                    "401":{
+                        "description": "Usuário não autorizado a acessar essa rota"
+                    },
+                    "200":{
+                        "description": "Usuário criado no banco"
+                    }
+                }
+            }
+        },
+        "/userscrud/update":{
+            "put": {
+                "tags":["Route Users"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "userId":{
+                                        "type":"string",
+                                        "required": true
+                                    },
+                                    "name":{
+                                        "type":"string"
+                                    },
+                                    "surname":{
+                                        "type":"string"
+                                    },
+                                    "phone":{
+                                        "type":"string"
+                                    },
+                                    "cpf":{
+                                        "type":"string"
+                                    }
+                                },
+                                "example":{                               
+                                        "userId":"625ff2c2ee5fb8c8ffd6e68e",
+                                        "name": "Rodolfo",
+                                        "surname": "Gomes",
+                                        "phone": "(11)9938-3221",
+                                        "cpf": "885.226.33910"
+                                }
+                            }
+
+                        }
+                    }
+            },
+                "responses":{
+                    "400":{
+                        "description": "Ocorreu um erro na atualização dos dados."
+                    },
+                    "401":{
+                        "description": "Usuário não autorizado a acessar essa rota"
+                    },
+                    "200":{
+                        "description": "Dados atualizados com sucesso."
+                    }   
+                }
+            }
+        },
+        "/userscrud/list":{
+            "get": {
+                "tags":["Route Users"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "cpf",
+                        "type": "string"
+                    }
+                ],
+                "responses":{
+                    "400":{
+                        "description": "Informações de CPF não armazenadas."
+                    },
+                    "401":{
+                        "description": "Usuário não autorizado a acessar essa rota"
+                    },
+                    "200":{
+                        "description": "Dados encontrados."
+                    }   
+                }
+            }
+        },
+        "/userscrud/remove":{
+            "delete": {
+                "tags":["Route Users"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userId",
+                        "type": "string",
+                        "required":true
+                    }
+                ],
+                "responses":{
+                    "400":{
+                        "description": "Ocorreu um erro na exclusão do usuário"
+                    },
+                    "401":{
+                        "description": "Usuário não autorizado a acessar essa rota"
+                    },
+                    "200":{
+                        "description": "Usuário excluído com sucesso."
+                    }   
+                }
+            }
+        }
+    }
+
+}

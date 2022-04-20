@@ -38,7 +38,7 @@ try {
     if (thisUsers.length > 0)
         res.send(thisUsers)
     else
-        return res.status(400).send({success: false, msg: "“Informações de CPF não armazenadas."})
+        return res.status(400).send({success: false, msg: "Informações de CPF não armazenadas."})
     
 } catch (error) {
     console.log(error)
