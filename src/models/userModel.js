@@ -7,8 +7,12 @@ const UserSchema = new mongoose.Schema({
   surname: {
     type: String
   },
+  password:{
+    type:String,
+  },
   cpf: {
-    type: String
+    type: String,
+    unique: true,
   },
   phone: {
     type: String,
