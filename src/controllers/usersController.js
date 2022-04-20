@@ -6,11 +6,14 @@ const router = express()
 
 router.post('/register', async (req, res) =>{
 try {
-  /*
-    - registro ok
-    - validação cpf
-    - validação telefone
-  */
+
+    let regexExpcpf = new RegExp('^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$');
+    if (regexExpcpf.test(req.body.cpf) == false)
+        return res.status(400).send({success: false, msg: "CPF informado possui formato inválido."})
+
+    let regexExpPhone = new RegExp('^\\(((1[1-9])|([2-9][0-9]))\\)((3[0-9]{3}-[0-9]{4})|(9[0-9]{3}-[0-9]{4}))$');
+    if (regexExpPhone.test(req.body.phone) == false)
+        return res.status(400).send({success: false, msg: "Telefone informado possui formato inválido."})
 
 
     let thisUser = await User.create(req.body)
