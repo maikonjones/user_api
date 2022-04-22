@@ -108,9 +108,5 @@ try {
 })
 
 
-function checkToken (req, res, next) {
-    let authHeader = req
-}
-
 
 module.exports = app => app.use('/userscrud', router)
