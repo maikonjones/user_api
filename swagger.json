@@ -22,6 +22,9 @@
                                         "surname":{
                                             "type":"string"
                                         },
+                                        "password":{
+                                            "type":"string"
+                                        },
                                         "phone":{
                                             "type":"string"
                                         },
@@ -33,7 +36,8 @@
                                         "name": "Pedro",
                                         "surname": "Silva",
                                         "phone": "(11)9938-3221",
-                                        "cpf": "885.226.33910"
+                                        "cpf": "885.226.33910",
+                                        "password": "123456"
                                     }
 
                                 }
@@ -50,6 +54,43 @@
                     },
                     "200":{
                         "description": "Usuário criado no banco"
+                    }
+                }
+            }
+        },
+        "/userscrud/authenticate":{
+            "post": {
+                "tags":["Route Users"],
+                "requestBody":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "cpf":{
+                                            "type":"string",
+                                            "required": true
+                                        },                      
+                                        "password":{
+                                            "type":"string"
+                                        }                            
+                                    },
+                                    "example":{                                   
+                                        "cpf": "885.226.33910",
+                                        "password": "123456"
+                                    }
+
+                                }
+
+                            }
+                        }
+                },         
+                "responses":{
+                    "400":{
+                        "description": "A senha informada está incorreta/CPF não encontrado na base de dados"
+                    },
+                    "200":{
+                        "description": "Login efetuado com sucesso."
                     }
                 }
             }

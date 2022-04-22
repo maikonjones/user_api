@@ -51,7 +51,8 @@ try {
     let userToken = jwt.sign({
         userId: thisUser._id
     },
-    secretToken
+    secretToken,
+    {expiresIn: '12h'}
     )
 
     res.send({msg: 'Autenticação realizada com sucesso', userToken})
@@ -106,6 +107,9 @@ try {
     console.log(error)
 }
 })
+
+
+
 
 
 
