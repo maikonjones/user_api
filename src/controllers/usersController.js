@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const authMid = require('../middleware/auth')
 
 //ROTA DE REGFISTRO DE USUÁRIO
-router.post('/register', (authMid), async (req, res) =>{
+router.post('/register', async (req, res) =>{
 try {
 
     let regexExpcpf = new RegExp('^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$');
@@ -64,7 +64,7 @@ try {
 })
 
 //ROTA DE LISTAGEM DE USUARIOS
-router.get('/list', async (req, res) =>{
+router.get('/list', (authMid), async (req, res) =>{
 try {
     let reportQuery = new Object();
 
@@ -83,7 +83,7 @@ try {
 })
 
 //ROTA DE ATUALIZAÇÃO
-router.put('/update', async (req, res) =>{
+router.put('/update', (authMid), async (req, res) =>{
 try {
     let thisUserUpdated = await User.updateOne({_id: req.body.userId}, {$set: req.body}, {new: true})
     if (thisUserUpdated)
@@ -96,7 +96,7 @@ try {
 })
 
 //ROTA DE EXCLUSÃO
-router.delete('/remove', async (req, res) =>{
+router.delete('/remove', (authMid), async (req, res) =>{
 try {
     let thisUserRemoved = await User.deleteOne({_id: req.query.userId})
     if (thisUserRemoved)
