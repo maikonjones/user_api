@@ -1,5 +1,5 @@
 const httpServer = require("http").createServer();
-const ChatModel = require('./models/chatModel')
+const ChatModel = require('./models/chatModel');
 const io = require("socket.io")(httpServer, {
   cors: {
     origin: "http://localhost:3000",
@@ -8,15 +8,36 @@ const io = require("socket.io")(httpServer, {
 });
 
 
-io.on("connection", (socket) => {
+
+
+
+io.on("connection", async(socket) => {
+ 
     console.log(`Socket conectado -  ${socket.id}`)
 
-    socket.emit('previousMessages', messages)
+    let previousMessages = []
+ 
+      let thisMessages = await ChatModel.find({})
+    
+      if (thisMessages.length > 0){
+        for(let thisM of thisMessages){
+          let returnMessages = {
+            author: thisM.author,
+            message: thisM.message
+          }
+    
+        previousMessages.push(returnMessages)
+        }
+      }
+        
+    
 
-    socket.on('sendMessage', (data) =>{
+    socket.emit('previousMessages', previousMessages);
 
-        ChatModel.create(data);
-        socket.broadcast.emit('receivedMessage', data)
+    socket.on('sendMessage', async (data) =>{
+
+        await ChatModel.create(data);
+        socket.broadcast.emit('receivedMessage', data);
     })
 });
 
