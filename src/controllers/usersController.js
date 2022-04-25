@@ -27,7 +27,7 @@ try {
 
     let thisUser = await User.create(req.body)
     if (thisUser)
-        res.send({success: true, msg: "“Informações armazenadas."})    
+        return res.status(200).send({success: true, msg: "“Informações armazenadas."})    
     else
         return res.status(400).send({success: false, msg: "CPF inválido."})
 
@@ -55,7 +55,7 @@ try {
     {expiresIn: '12h'}
     )
 
-    res.send({success: true, msg: 'Autenticação realizada com sucesso', userToken})
+    return res.status(200).send({success: true, msg: 'Autenticação realizada com sucesso', userToken})
 
     
 } catch (error) {
@@ -73,7 +73,7 @@ try {
 
     let thisUsers = await User.find(reportQuery)
     if (thisUsers.length > 0)
-        res.send(thisUsers)
+        return res.status(200).send({success: true, msg: "“Informações armazenadas."})(thisUsers)
     else
         return res.status(400).send({success: false, msg: "Informações de CPF não armazenadas."})
     
@@ -87,7 +87,7 @@ router.put('/update', (authMid), async (req, res) =>{
 try {
     let thisUserUpdated = await User.updateOne({_id: req.body.userId}, {$set: req.body}, {new: true})
     if (thisUserUpdated)
-        res.send({success: true, msg: 'Atualização feita com sucesso.'})
+        return res.status(200).send({success: true, msg: "“Informações armazenadas."})({success: true, msg: 'Atualização feita com sucesso.'})
     else
         return res.status(400).send({success: false, msg: 'Ocorreu um erro na atualização.'})
 } catch (error) {
@@ -100,7 +100,7 @@ router.delete('/remove', (authMid), async (req, res) =>{
 try {
     let thisUserRemoved = await User.deleteOne({_id: req.query.userId})
     if (thisUserRemoved)
-        res.send({success: true, msg: 'Exclusão feita com sucesso.'})
+        return res.status(200).send({success: true, msg: "“Informações armazenadas."})({success: true, msg: 'Exclusão feita com sucesso.'})
     else
         return res.status(400).send({success: false, msg: 'Ocorreu um erro na exclusão do usuário.'})
 } catch (error) {
