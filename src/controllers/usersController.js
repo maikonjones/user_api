@@ -14,7 +14,7 @@ try {
     if (regexExpcpf.test(req.body.cpf) == false)
         return res.status(400).send({success: false, msg: "CPF informado possui formato inválido."})
 
-    let regexExpPhone = new RegExp('^\\(((1[1-9])|([2-9][0-9]))\\)((3[0-9]{3}-[0-9]{4})|(9[0-9]{3}-[0-9]{4}))$');
+    let regexExpPhone = new RegExp('^\\(((1[1-9])|([2-9][0-9]))\\)((3[0-9]{3}\\-[0-9]{4})|(9[0-9]{4}\\-[0-9]{4}))$');
     if (regexExpPhone.test(req.body.phone) == false)
         return res.status(400).send({success: false, msg: "Telefone informado possui formato inválido."})
 
@@ -27,7 +27,7 @@ try {
 
     let thisUser = await User.create(req.body)
     if (thisUser)
-        res.send({  success: true, msg: "“Informações armazenadas."})    
+        res.send({success: true, msg: "“Informações armazenadas."})    
     else
         return res.status(400).send({success: false, msg: "CPF inválido."})
 
@@ -41,11 +41,11 @@ router.post('/authenticate', async (req, res) =>{
 try {
     let thisUser = await User.findOne({cpf: req.body.cpf})
     if (!thisUser)
-        return res.status(400).send({error: 'CPF não encontrado no sistema.'})
+        return res.status(400).send({success: false, msg: 'CPF não encontrado no sistema.'})
     
     let checkPassword = await bcrypt.compare(req.body.password, thisUser.password)
     if (!checkPassword)
-        return res.status(400).send({error: 'A senha informada está incorreta'})
+        return res.status(400).send({success: false, msg: 'A senha informada está incorreta'})
 
     let secretToken = process.env.AUTH_SECRET
     let userToken = jwt.sign({
@@ -55,7 +55,7 @@ try {
     {expiresIn: '12h'}
     )
 
-    res.send({msg: 'Autenticação realizada com sucesso', userToken})
+    res.send({success: true, msg: 'Autenticação realizada com sucesso', userToken})
 
     
 } catch (error) {
