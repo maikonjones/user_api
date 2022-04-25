@@ -30,8 +30,6 @@ io.on("connection", async(socket) => {
         }
       }
         
-    
-
     socket.emit('previousMessages', previousMessages);
 
     socket.on('sendMessage', async (data) =>{
