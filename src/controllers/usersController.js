@@ -41,11 +41,11 @@ router.post('/authenticate', async (req, res) =>{
 try {
     let thisUser = await User.findOne({cpf: req.body.cpf})
     if (!thisUser)
-        return res.status(400).send({success: false, msg: 'CPF não encontrado no sistema.'})
+        return res.status(401).send({success: false, msg: 'CPF não encontrado no sistema.'})
     
     let checkPassword = await bcrypt.compare(req.body.password, thisUser.password)
     if (!checkPassword)
-        return res.status(400).send({success: false, msg: 'A senha informada está incorreta.'})
+        return res.status(401).send({success: false, msg: 'A senha informada está incorreta.'})
 
     let secretToken = process.env.AUTH_SECRET
     let userToken = jwt.sign({
@@ -84,11 +84,22 @@ try {
 //ROTA DE ATUALIZAÇÃO
 router.put('/update', (authMid), async (req, res) =>{
 try {
-
     let thisUser = await User.findOne({_id: req.body.userId})
     if (!thisUser)
-        return res.status(400).send({success: false, msg: 'Usuário não encontrado ou ID inválido.'})
+        return res.status(401).send({success: false, msg: 'Usuário não encontrado ou ID inválido.'})
 
+
+    if ((!req.body.password) || (!req.body.confirmPassword))
+        return res.status(401).send({sucess: false, msg: 'Por favor informe a senha e confirme a mesma.'})
+
+    if (req.body.password !== req.body.confirmPassword)
+        return res.status(401).send({sucess: false, msg: 'A confirmação de senha está incorreta.'})
+    
+    let checkPassword = await bcrypt.compare(req.body.password, thisUser.password)
+    if (!checkPassword)
+        return res.status(401).send({success: false, msg: 'A senha informada está incorreta.'})
+    
+    
     let thisUserUpdated = await User.updateOne({_id: req.body.userId}, {$set: req.body}, {new: true})
 
     if (thisUserUpdated)

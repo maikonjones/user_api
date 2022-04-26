@@ -118,15 +118,26 @@
                                         "type":"string"
                                     },
                                     "cpf":{
-                                        "type":"string"
+                                        "type":"string",
+                                        "required":true
+                                    },
+                                    "password":{
+                                        "type":"string",
+                                        "required":true
+                                    },
+                                    "confirmPassword":{
+                                        "type":"string",
+                                        "required":true
                                     }
                                 },
-                                "example":{                               
-                                        "userId":"625ff2c2ee5fb8c8ffd6e68e",
-                                        "name": "Rodolfo",
-                                        "surname": "Gomes",
-                                        "phone": "(11)9938-3221",
-                                        "cpf": "885.226.33910"
+                                "example":{                                                                 
+                                        "userId":"62605b3fbcbe86bc08cc3465",
+                                        "name": "Jones",
+                                        "surname": "Maikon",
+                                        "password":"1234567",
+                                        "confirmPassword":"1234567",
+                                        "phone": "(49)99912-6595",
+                                        "cpf": "047.002.619-97"                                  
                                 }
                             }
 

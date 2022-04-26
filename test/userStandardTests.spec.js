@@ -147,7 +147,7 @@ describe("Autenticação de usuários", function () {
       await axios.post(url, body)
         .catch(function (err) {
   
-          expect(err.response.status).to.be.equal(400)
+          expect(err.response.status).to.be.equal(401)
           // expect(res.response.data.msg).to.be.equal({"msg": "A senha informada está incorreta"})
         })
   
@@ -234,6 +234,7 @@ describe("Edição de usuários", function () {
       "name": "Rodolfo",
       "surname": "Gomes",
       "password":"12345678",
+      "confirmPassword":"12345678",
       "phone": "(11)96855-2211",
       "cpf": "885.226.339-10"
     }
@@ -242,7 +243,7 @@ describe("Edição de usuários", function () {
     await axios.put(url, body, config)
     
     .catch(function (err) {
-      expect(err.response.status).to.be.eql(400);
+      expect(err.response.status).to.be.eql(401);
       expect(err.response.data.success).to.be.eql(false)
 
     })
