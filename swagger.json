@@ -25,6 +25,9 @@
                                         "password":{
                                             "type":"string"
                                         },
+                                        "confirmPassword":{
+                                            "type":"string"
+                                        },
                                         "phone":{
                                             "type":"string"
                                         },
@@ -37,7 +40,8 @@
                                         "surname": "Silva",
                                         "phone": "(11)99938-3221",
                                         "cpf": "885.226.339-10",
-                                        "password": "123456"
+                                        "password": "123456",
+                                        "confirmPassword":"123456"
                                     }
 
                                 }

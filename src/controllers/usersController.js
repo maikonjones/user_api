@@ -18,11 +18,11 @@ try {
     if (regexExpPhone.test(req.body.phone) == false)
         return res.status(400).send({success: false, msg: "Telefone informado possui formato inválido."})
 
-    if (!req.body.password)
-        return res.status(400).send({error: 'Informe uma senha para cadastro de usuário.'})
+    if ((!req.body.password) || (!req.body.confirmPassword))
+        return res.status(400).send({sucess: false, msg: 'Por favor informe uma senha e sua confirmação.'})
 
-
-    
+    if (req.body.password !== req.body.confirmPassword)
+        return res.status(401).send({sucess: false, msg: 'A confirmação de senha está incorreta.'})
 
     let hashSalt = await bcrypt.genSalt(5)
     req.body.password = await bcrypt.hash(req.body.password, hashSalt)
