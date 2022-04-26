@@ -25,6 +25,9 @@ Installing NPM dependencies
 Then simply start your app into path /src 
     node index.js
 
+Then simply start the chat into path /src
+    node chat.js
+
 To start the tests run 
     npm test 
 
