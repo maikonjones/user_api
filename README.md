@@ -32,3 +32,7 @@ To start the tests run
     npm test 
 
 The Server should now be running at http://localhost:3000/
+
+The API-Docs should now be running at http://localhost:3000/api-docs
+
+The API-Docs should now be running at http://localhost:3000/chat
