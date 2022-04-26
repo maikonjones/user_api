@@ -22,6 +22,8 @@ try {
         return res.status(400).send({error: 'Informe uma senha para cadastro de usuário.'})
 
 
+    
+
     let hashSalt = await bcrypt.genSalt(5)
     req.body.password = await bcrypt.hash(req.body.password, hashSalt)
 
@@ -115,6 +117,10 @@ router.delete('/remove', (authMid), async (req, res) =>{
 try {
     if (req.query.userId.length < 24)
         return res.status(400).send({success: false, msg: 'ID informado não possui tamanho válido.'})
+
+    let thisUser = await User.findOne({_id: req.query.userId})
+        if (!thisUser)
+            return res.status(400).send({success: false, msg: 'Usuário não encontrado ou ID inválido.'})
     
     let thisUserRemoved = await User.deleteOne({_id: req.query.userId})
 
