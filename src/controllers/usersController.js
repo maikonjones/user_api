@@ -45,14 +45,13 @@ try {
     
     let checkPassword = await bcrypt.compare(req.body.password, thisUser.password)
     if (!checkPassword)
-        return res.status(400).send({success: false, msg: 'A senha informada está incorreta'})
+        return res.status(400).send({success: false, msg: 'A senha informada está incorreta.'})
 
     let secretToken = process.env.AUTH_SECRET
     let userToken = jwt.sign({
         userId: thisUser._id
     },
-    secretToken,
-    {expiresIn: '12h'}
+    secretToken
     )
 
     return res.status(200).send({success: true, msg: 'Autenticação realizada com sucesso', userToken})
@@ -73,9 +72,9 @@ try {
 
     let thisUsers = await User.find(reportQuery)
     if (thisUsers.length > 0)
-        return res.status(200).send({success: true, msg: "“Informações armazenadas."})(thisUsers)
+        return res.status(200).send({success: true, thisUsers})
     else
-        return res.status(400).send({success: false, msg: "Informações de CPF não armazenadas."})
+        return res.status(400).send({success: false, msg: "Informações não encontradas para o CPF informado"})
     
 } catch (error) {
     console.log(error)
@@ -85,11 +84,16 @@ try {
 //ROTA DE ATUALIZAÇÃO
 router.put('/update', (authMid), async (req, res) =>{
 try {
+
+    let thisUser = await User.findOne({_id: req.body.userId})
+    if (!thisUser)
+        return res.status(400).send({success: false, msg: 'Usuário não encontrado ou ID inválido.'})
+
     let thisUserUpdated = await User.updateOne({_id: req.body.userId}, {$set: req.body}, {new: true})
+
     if (thisUserUpdated)
-        return res.status(200).send({success: true, msg: "“Informações armazenadas."})({success: true, msg: 'Atualização feita com sucesso.'})
-    else
-        return res.status(400).send({success: false, msg: 'Ocorreu um erro na atualização.'})
+        return res.status(200).send({success: true, msg: 'Atualização feita com sucesso.'})
+
 } catch (error) {
     console.log(error)
 }
@@ -98,9 +102,13 @@ try {
 //ROTA DE EXCLUSÃO
 router.delete('/remove', (authMid), async (req, res) =>{
 try {
+    if (req.query.userId.length < 24)
+        return res.status(400).send({success: false, msg: 'ID informado não possui tamanho válido.'})
+    
     let thisUserRemoved = await User.deleteOne({_id: req.query.userId})
+
     if (thisUserRemoved)
-        return res.status(200).send({success: true, msg: "“Informações armazenadas."})({success: true, msg: 'Exclusão feita com sucesso.'})
+        return res.status(200).send({success: true, msg: 'Exclusão feita com sucesso.'})
     else
         return res.status(400).send({success: false, msg: 'Ocorreu um erro na exclusão do usuário.'})
 } catch (error) {
