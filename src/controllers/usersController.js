@@ -101,7 +101,10 @@ try {
     if (!checkPassword)
         return res.status(401).send({success: false, msg: 'A senha informada está incorreta.'})
     
-    
+    let hashSalt = await bcrypt.genSalt(5)
+    req.body.password = await bcrypt.hash(req.body.password, hashSalt)
+
+
     let thisUserUpdated = await User.updateOne({_id: req.body.userId}, {$set: req.body}, {new: true})
 
     if (thisUserUpdated)
